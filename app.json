@@ -1,0 +1,37 @@
+{
+  "expo": {
+    "name": "Peter's Knitting",
+    "slug": "peters-knitting",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#0a1628"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#0a1628"
+      },
+      "package": "com.petersknitting.app"
+    },
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "e9ddadeb-154f-44b2-8039-bbe299907c94"
+      }
+    },
+    "owner": "josedaswork",
+    "plugins": [
+      "expo-font"
+    ]
+  }
+}
