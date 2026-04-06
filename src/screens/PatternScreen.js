@@ -325,6 +325,7 @@ export default function PatternScreen({ activeProjectId, onRefresh }) {
   const goToPage = (delta) => {
     const newPage = pageInfo.page + delta;
     if (newPage >= 1 && newPage <= pageInfo.total) {
+      setPageInfo((prev) => ({ ...prev, page: newPage }));
       sendToWebView('goToPage', newPage);
     }
   };

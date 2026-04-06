@@ -143,8 +143,7 @@ window.handleRNMessage = function(msgObj) {
       case 'goToPage':
         state.currentPage = msgObj.data;
         var el = pdfArea.querySelector('[data-page="' + msgObj.data + '"]');
-        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        break;
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });        sendToRN('pageChanged', { page: msgObj.data, total: state.pdfDoc ? state.pdfDoc.numPages : 0 });        break;
       case 'addNote':
         state.annotations.push(msgObj.data);
         rerenderAnnotations();
@@ -389,7 +388,7 @@ function setupPageInteraction(layer, pn, w, h) {
 
 // Track scroll for page indicator
 var scrollTimer = null;
-pdfArea.addEventListener('scroll', function() {
+document.addEventListener('scroll', function(){
   clearTimeout(scrollTimer);
   scrollTimer = setTimeout(function() {
     var wrappers = pdfArea.querySelectorAll('.pdf-page-wrapper');
