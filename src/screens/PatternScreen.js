@@ -108,7 +108,7 @@ export default function PatternScreen({ activeProjectId, onRefresh }) {
       }
     } else {
       if (webviewRef.current) {
-        const js = `window.handleRNMessage(${msg}); true;`;
+        const js = 'window.handleRNMessage(' + msg + '); true;';
         webviewRef.current.injectJavaScript(js);
       }
     }
