@@ -28,7 +28,7 @@ let WebView, DocumentPicker, FileSystem, SAF;
 if (!isWeb) {
   WebView = require('react-native-webview').WebView;
   DocumentPicker = require('expo-document-picker');
-  const fs = require('expo-file-system');
+  const fs = require('expo-file-system/legacy');
   FileSystem = fs;
   SAF = fs.StorageAccessFramework;
 }
