@@ -25,7 +25,13 @@ Set-Location $projectDir
 Write-Host ""
 Write-Host "[1/2] Verificando Node.js..." -ForegroundColor Cyan
 
+$nodePaths = @("C:\Program Files\nodejs", "$env:APPDATA\npm")
 $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
+foreach ($p in $nodePaths) {
+    if (($env:Path -split ";") -notcontains $p) {
+        $env:Path = "$p;$env:Path"
+    }
+}
 
 if (Get-Command node -ErrorAction SilentlyContinue) {
     $nodeVersion = node --version
@@ -37,6 +43,11 @@ if (Get-Command node -ErrorAction SilentlyContinue) {
         if ($LASTEXITCODE -eq 0) {
             Write-Host "  Node.js instalado correctamente." -ForegroundColor Green
             $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
+            foreach ($p in $nodePaths) {
+                if (($env:Path -split ";") -notcontains $p) {
+                    $env:Path = "$p;$env:Path"
+                }
+            }
         } else {
             Write-Host "  ERROR: No se pudo instalar Node.js." -ForegroundColor Red
             Write-Host "  Instalalo manualmente desde: https://nodejs.org/" -ForegroundColor Yellow
@@ -49,11 +60,27 @@ if (Get-Command node -ErrorAction SilentlyContinue) {
     }
 }
 
+# --- Asegurar que Node.js esta en el PATH permanente del usuario ---
+$userPath = [System.Environment]::GetEnvironmentVariable("Path", "User")
+foreach ($p in $nodePaths) {
+    if ($userPath -notlike "*$p*") {
+        $userPath = "$p;$userPath"
+        Write-Host "  Anadido al PATH de usuario: $p" -ForegroundColor Yellow
+    }
+}
+[System.Environment]::SetEnvironmentVariable("Path", $userPath, "User")
+Write-Host "  PATH de usuario actualizado permanentemente." -ForegroundColor Green
+
 # --- 2. Instalar dependencias ---
 Write-Host ""
 Write-Host "[2/2] Instalando dependencias del proyecto..." -ForegroundColor Cyan
 
 $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
+foreach ($p in @("C:\Program Files\nodejs", "$env:APPDATA\npm")) {
+    if (($env:Path -split ";") -notcontains $p) {
+        $env:Path = "$p;$env:Path"
+    }
+}
 
 if (Get-Command npm -ErrorAction SilentlyContinue) {
     npm install
